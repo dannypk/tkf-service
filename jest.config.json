@@ -1,0 +1,9 @@
+{
+  "roots": [
+    "./sources"
+  ],
+  "notify": true,
+  "verbose": false,
+  "testEnvironment": "node"
+}
+

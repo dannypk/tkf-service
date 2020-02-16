@@ -2,10 +2,36 @@
   "name": "tkf-service",
   "version": "1.0.0",
   "description": "tkf rest api",
-  "main": "index.js",
+  "main": "./sources/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --config=./jest.config.json --forceExit",
+    "build": "yarn doc",
+    "start": "node ./sources/server.js",
+    "dev": "nodemon ./sources/server.js",
+    "doc": "apidoc -i sources/modules -o doc/",
+    "lint": "eslint ./sources --ext .js --ext .json"
   },
   "author": "daniel.pacurici",
-  "license": "ISC"
+  "apidoc": {
+    "title": "RestApi documentation for TFK Service"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "3.0.0",
+    "config": "3.2.5",
+    "http-status-codes": "1.4.0",
+    "jsonwebtoken": "8.5.1",
+    "koa": "2.11.0",
+    "koa-bodyparser": "4.2.1",
+    "koa-jwt": "3.6.0",
+    "koa-mount": "4.0.0",
+    "koa-router": "8.0.7",
+    "koa-static": "5.0.0",
+    "mongoose": "5.9.0"
+  },
+  "devDependencies": {
+    "apidoc": "0.20.0",
+    "eslint-config-easy-configuration": "1.1.0",
+    "jest": "25.1.0"
+  }
 }
