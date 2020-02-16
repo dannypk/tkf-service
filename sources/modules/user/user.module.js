@@ -2,7 +2,7 @@ const config = require('config');
 const httpStatusCodes = require('http-status-codes');
 
 const jwtService = require('../../services/jwt.service');
-const userService = require('../../services/user/user.service');
+const userService = require('../../services/user.service');
 
 module.exports = {
   setupRoutes
@@ -36,20 +36,21 @@ function setupRoutes(router) {
  *     }
  */
   router.post(`/${config.name}/user/login`, login);
+
+  /**
+ * @api {get} /user/verify Verify users token from header
+ * @apiGroup user
+ */
+  router.get(`/${config.name}/user/verify`, verify);
+}
+
+function verify(ctx) {
+  const token = jwtService.getTokenFromHeaders(ctx);
+  ctx.body = jwtService.verify(token)
 }
 
 async function login(ctx) {
   const { email, password } = ctx.request.body;
-  const { token } = ctx.request.headers;
-
-  if (token) {
-    ctx.body = {
-      token: token,
-      message: 'Already logged in!'
-    };
-    return;
-  }
-
   const user = await userService.login(email, password);
 
   if (user) {
@@ -58,6 +59,7 @@ async function login(ctx) {
       token: jwtService.sign(user),
       message: 'Successfully logged in!'
     };
+    return;
   }
 
   ctx.status = httpStatusCodes.UNAUTHORIZED;
@@ -75,7 +77,13 @@ async function registerUser(ctx) {
   ctx.assert(password, 'Have you forgotton our secret? Sorry, I mean, your secret.', httpStatusCodes.BAD_REQUEST);
 
   try {
-    ctx.body = await userService.registerUser(name, email, password, ctx.db);
+    await userService.registerUser(name, email, password, ctx.db);
+    const user = await userService.findUserByEmail(email);
+
+    ctx.body = {
+      token: jwtService.sign(user),
+      message: 'user created successfully'
+    };
     ctx.status = httpStatusCodes.CREATED;
   } catch (e) {
     ctx.status = httpStatusCodes.CONFLICT;

@@ -2,7 +2,7 @@ const config = require('config');
 const httpStatusCodes = require('http-status-codes');
 const { checkToken } = require('../../middlewares/jwt.middleware');
 
-const sequenceService = require('../../services/sequence/sequence.service');
+const sequenceService = require('../../services/sequence.service');
 
 module.exports = {
   setupRoutes

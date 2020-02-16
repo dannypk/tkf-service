@@ -2,7 +2,7 @@ const httpStatusCodes = require('http-status-codes');
 const jwtService = require('../services/jwt.service');
 
 const checkToken = (ctx, next) => {
-  let token = ctx.request.headers['x-access-token'] || ctx.request.headers.authorization; 
+  const token = jwtService.getTokenFromHeaders(ctx);
   
   if (!token) {
     ctx.body = 'Authorization failed.';
@@ -10,9 +10,6 @@ const checkToken = (ctx, next) => {
     return;
   }
 
-  if (token.startsWith('Bearer ')) {
-    token = token.slice(7, token.length).trimLeft();
-  }
 
   const isTokenValid = jwtService.verify(token);
   if (!isTokenValid) {

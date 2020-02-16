@@ -5,6 +5,17 @@ class JwtService {
     this.jwtSecret = 'tkfToken';
   }
 
+  getTokenFromHeaders(ctx) {
+    let token = ctx.request.headers['x-access-token'] ||
+      ctx.request.headers.authorization || undefined;
+
+    if (token && token.startsWith('Bearer ')) {
+      token = token.slice(7, token.length).trimLeft();
+    }
+
+    return token;
+  }
+
   verify(token) {
     try {
       return jwt.verify(token, this.jwtSecret);

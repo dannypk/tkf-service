@@ -1,4 +1,5 @@
-const User = require('../../models/user.model');
+const User = require('../models/user.model');
+const jwtService = require('./jwt.service');
 
 class UserService {
   findUserByEmail(email) {
@@ -26,6 +27,10 @@ class UserService {
     }
 
     return undefined;
+  }
+
+  async verify(token) {
+    return jwtService.verify(token);
   }
 }
 
