@@ -10,8 +10,11 @@ module.exports = {
 
 function setupRoutes(router) {
   /**
-   * @api {get} /user/register Register new user
+   * @api {put} /user/register Register new user
    * @apiGroup user
+   * @apiParam {String} name      User's Name.
+   * @apiParam {String} email     User's Email.
+   * @apiParam {String} password  User's Password sha256 hashed.
    * @apiParamExample {json} Request-Example:
    *     {
    *       "name": "Daniel",
@@ -22,8 +25,10 @@ function setupRoutes(router) {
   router.put(`/${config.name}/user/register`, registerUser);
 
   /**
- * @api {get} /user/login Authenticate user
+ * @api {post} /user/login Authenticate user
  * @apiGroup user
+ * @apiParam {String} email       User's Email.
+ * @apiParam {String} password    User's Password sha256 hashed.
  * @apiParamExample {json} Request-Example:
  *     {
  *       "email": "daniel@github.com",
