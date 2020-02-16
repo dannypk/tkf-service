@@ -13,7 +13,8 @@
   },
   "author": "daniel.pacurici",
   "apidoc": {
-    "title": "RestApi documentation for TFK Service"
+    "title": "RestApi documentation for TFK Service",
+    "url": "https://tkf-service.herokuapp.com/tkf-service"
   },
   "license": "ISC",
   "dependencies": {
