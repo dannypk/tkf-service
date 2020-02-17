@@ -10,7 +10,6 @@ const checkToken = (ctx, next) => {
     return;
   }
 
-
   const isTokenValid = jwtService.verify(token);
   if (!isTokenValid) {
     ctx.body = 'Credentials not valid';
